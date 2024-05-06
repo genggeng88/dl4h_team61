@@ -3,10 +3,20 @@ import numpy as np
 import pandas as pd
 import csv
 
-x1=np.array(np.array(pd.read_csv("/DDI/data/final_modelssd1_d_32.csv", header=None , sep=',')).tolist())
-x2=np.array(np.array(pd.read_csv("/DDI/data/final_modelssd2_d_32.csv", header=None , sep=',')).tolist())
-x3=np.array(np.array(pd.read_csv("/DDI/data/final_modelssd3_d_32.csv", header=None , sep=',')).tolist())
-x4=np.array(np.array(pd.read_csv("/DDI/data/final_modelssd4_d_32.csv", header=None , sep=',')).tolist())
+# x1=np.array(np.array(pd.read_csv("./DDI/data/final_modelssd1_d_32.csv", header=None , sep=',')).tolist())
+# x2=np.array(np.array(pd.read_csv("./DDI/data/final_modelssd2_d_32.csv", header=None , sep=',')).tolist())
+# x3=np.array(np.array(pd.read_csv("./DDI/data/final_modelssd3_d_32.csv", header=None , sep=',')).tolist())
+# x4=np.array(np.array(pd.read_csv("./DDI/data/final_modelssd4_d_32.csv", header=None , sep=',')).tolist())
+
+x1=np.array(np.array(pd.read_csv("./DDI/data5/final_modelss1_d_32.csv", header=None , sep=',')).tolist())
+x2=np.array(np.array(pd.read_csv("./DDI/data5/final_modelss2_d_32.csv", header=None , sep=',')).tolist())
+x3=np.array(np.array(pd.read_csv("./DDI/data5/final_modelss3_d_32.csv", header=None , sep=',')).tolist())
+x4=np.array(np.array(pd.read_csv("./DDI/data5/final_modelss4_d_32.csv", header=None , sep=',')).tolist())
+
+# x1=np.array(np.array(pd.read_csv("./DDI/data5/final_modelss1.csv", header=None , sep=',')).tolist())
+# x2=np.array(np.array(pd.read_csv("./DDI/data5/final_modelss2.csv", header=None , sep=',')).tolist())
+# x3=np.array(np.array(pd.read_csv("./DDI/data5/final_modelss3.csv", header=None , sep=',')).tolist())
+# x4=np.array(np.array(pd.read_csv("./DDI/data5/final_modelss4.csv", header=None , sep=',')).tolist())
 
 def chang_to_array(s):
   # print(s.shape)
@@ -65,6 +75,7 @@ def reduc_shape(m):
       print("c")
   return np.array(r)
 
+'''
 xx1 = np.array(reduc_shape(x1))
 xx2 = np.array(reduc_shape(x2))
 xx3 = np.array(reduc_shape(x3))
@@ -88,6 +99,28 @@ xs1 = (make_dic(xx1))
 xs2 = (make_dic(xx2))
 xs3 = (make_dic(xx3))
 xs4 = (make_dic(xx4))
+'''
+
+def make_dic(x):
+  s_dic = dict()
+  r = []
+  for i in range(572):
+    try:
+      s2=np.where(x[:,1]==i)[0]
+      dd = x[s2[0],2:]
+      for j in s2[1:]:
+        # dd = np.mean((dd,m[j,2:]), axis=0)
+        dd = np.concatenate((dd,x[j,2:]))
+      # r.append([i,dd])
+      s_dic[i] = dd
+    except:
+      print("c")
+  return s_dic
+
+xs1 = (make_dic(x1))
+xs2 = (make_dic(x2))
+xs3 = (make_dic(x3))
+xs4 = (make_dic(x4))
 print(len(xs1[0]))
 
 all_fectuer = []
@@ -103,7 +136,7 @@ print(all_fectuer[0][0][0])
 # print(all_fectuer[0][336][0])
 print(type(all_fectuer[0]))
 
-full_pos=np.array(np.array(pd.read_csv("/DDI/full_pos.txt", header=None , sep=' ')).tolist())
+full_pos=np.array(np.array(pd.read_csv("./DDI/full_pos2.txt", header=None , sep=' ')).tolist())
 print(full_pos.shape)
 
 DDI = full_pos[:,1:3]
@@ -122,13 +155,13 @@ new_feature3 = ( np.array(np.multiply(f_i3[d[0]],f_i3[d[1]])).tolist() for d in 
 new_feature4 = ( np.array(np.multiply(f_i4[d[0]],f_i4[d[1]])).tolist() for d in (DDI) )
 
 df = pd.DataFrame(np.array(list(new_feature1)))
-df.to_csv('/DDI/data5/t_c_m_1_32.txt', header=None, index=None, sep=' ')
+df.to_csv('./DDI/data5/t_c_m_1_32.txt', header=None, index=None, sep=' ')
 df = pd.DataFrame(np.array(list(new_feature2)))
-df.to_csv('/DDI/data5/t_c_m_2_32.txt', header=None, index=None, sep=' ')
+df.to_csv('./DDI/data5/t_c_m_2_32.txt', header=None, index=None, sep=' ')
 df = pd.DataFrame(np.array(list(new_feature3)))
-df.to_csv('/DDI/data5/t_c_m_3_32.txt', header=None, index=None, sep=' ')
+df.to_csv('./DDI/data5/t_c_m_3_32.txt', header=None, index=None, sep=' ')
 df = pd.DataFrame(np.array(list(new_feature4)))
-df.to_csv('/DDI/data5/t_c_m_4_32.txt', header=None, index=None, sep=' ')
+df.to_csv('./DDI/data5/t_c_m_4_32.txt', header=None, index=None, sep=' ')
 
 print(len(all_fectuer[0][0]),len(DDI))
 full_pos = 0
